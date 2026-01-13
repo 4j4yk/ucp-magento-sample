@@ -1,0 +1,16 @@
+{
+  "email": "buyer@example.com",
+  "carrier_code": "flatrate",
+  "method_code": "flatrate",
+  "shipping_address": {
+    "firstname": "John",
+    "lastname": "Doe",
+    "street": ["1 Main St"],
+    "city": "Detroit",
+    "region": "Michigan",
+    "region_code": "MI",
+    "postcode": "48201",
+    "country_id": "US",
+    "telephone": "1231231234"
+  }
+}

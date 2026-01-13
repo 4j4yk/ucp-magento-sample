@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UCP Adobe Commerce MVP Gateway</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="nav">
+        <div class="brand">UCP Adobe Commerce MVP</div>
+        <div class="nav-links">
+          <a href="#overview">Overview</a>
+          <a href="#quickstart">Quickstart</a>
+          <a href="#testing">Testing</a>
+          <a href="#agent">Agent</a>
+          <a href="#ap2">AP2</a>
+        </div>
+      </nav>
+      <div class="hero-content">
+        <p class="eyebrow">Reference gateway for agentic commerce</p>
+        <h1>UCP + Adobe Commerce Gateway (MVP)</h1>
+        <p class="lead">
+          A minimal UCP checkout gateway that maps universal commerce flows to Magento 2,
+          with local agent tooling and AP2 mock mandates.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#quickstart">Get Started</a>
+          <a class="btn ghost" href="#testing">Run Tests</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="overview" class="section">
+        <div class="section-header">
+          <h2>Overview</h2>
+          <p>What this repo proves and how it is structured.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Discovery First</h3>
+            <p>Expose capabilities at <code>/.well-known/ucp</code> so agents can integrate without bespoke code.</p>
+          </div>
+          <div class="card">
+            <h3>Checkout Lifecycle</h3>
+            <p>Create, update, and complete checkout sessions while delegating pricing to Magento.</p>
+          </div>
+          <div class="card">
+            <h3>AP2 Ready</h3>
+            <p>Optional AP2 mandate verification for checkout integrity and payment authorization.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="quickstart" class="section alt">
+        <div class="section-header">
+          <h2>Quickstart</h2>
+          <p>Minimal setup to run the gateway locally.</p>
+        </div>
+        <div class="code-block">
+          <pre><code>npm install
+cp .env.example .env
+npm run dev</code></pre>
+        </div>
+        <p class="note">Health check: <code>curl -s http://localhost:3000/health</code></p>
+      </section>
+
+      <section id="testing" class="section">
+        <div class="section-header">
+          <h2>Testing</h2>
+          <p>Pick a flow based on what you want to validate.</p>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <h3>E2E Gateway Flow</h3>
+            <p>REST-only sanity check for create/update/complete.</p>
+            <pre><code>chmod +x scripts/test-local.sh
+./scripts/test-local.sh</code></pre>
+          </div>
+          <div class="card">
+            <h3>Agent Flow</h3>
+            <p>Product search + intent parsing + wallet autofill.</p>
+            <pre><code>ollama serve
+node scripts/agent-local.mjs</code></pre>
+          </div>
+          <div class="card">
+            <h3>AP2 Mock Flow</h3>
+            <p>Generates local keys and completes checkout with mock mandates.</p>
+            <pre><code>chmod +x scripts/test-ap2-local.sh
+./scripts/test-ap2-local.sh</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="agent" class="section alt">
+        <div class="section-header">
+          <h2>Local Agent</h2>
+          <p>Interactive CLI that drives checkout through the gateway.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Wallet Autofill</h3>
+            <p>Provide a wallet profile to auto-fill checkout details.</p>
+            <pre><code>WALLET_PROFILE_PATH=wallet.json node scripts/agent-local.mjs
+AUTO_USE_WALLET=true node scripts/agent-local.mjs</code></pre>
+          </div>
+          <div class="card">
+            <h3>Module Layout</h3>
+            <p>Agent logic is split into small files under <code>scripts/agent/</code>.</p>
+            <pre><code>scripts/agent-local.mjs
+scripts/agent/checkout.mjs
+scripts/agent/intent.mjs
+scripts/agent/wallet.mjs</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="ap2" class="section">
+        <div class="section-header">
+          <h2>AP2 (MVP)</h2>
+          <p>Checkout mandates for integrity and payment authorization.</p>
+        </div>
+        <div class="card">
+          <p>
+            When AP2 is enabled, the gateway issues a checkout signature and expects
+            <code>checkout_mandate</code> and <code>payment_mandate</code> on completion.
+          </p>
+          <pre><code>AP2_ENABLED=true
+AP2_SIGNING_ALG=RS256
+AP2_SIGNING_PRIVATE_KEY_PEM="..."
+AP2_SIGNING_PUBLIC_KEY_PEM="..."
+AP2_PLATFORM_PUBLIC_KEY_PEM="..."
+AP2_PAYMENT_PUBLIC_KEY_PEM="..."</code></pre>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="section-header">
+          <h2>License</h2>
+          <p>MIT License. See <code>LICENSE</code> for details.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>UCP Adobe Commerce MVP Gateway · Built for rapid experimentation</p>
+    </footer>
+  </body>
+</html>
